@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://yui-s.yahooapis.com/pure/0.5.0/pure-min.css">
+    <script src="https://rawgit.com/tpreusse/radar-chart-d3/master/src/radar-chart.js"></script>
+    <link rel="stylesheet" href="../static/css/radar_chart.css">
+
+
+    <title>Wot - Tank statistics</title>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <img src="../static/images/wot_logo_white.png" style="max-height: 40px;">
+
+        
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        
+        </div>
+    </nav>
+
+    <main role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <div class="container" style="height: 200px;">
+            <div class="row" style="align-items: center;">
+                <img src="../static/images/uk_small.png" style="float: left; max-height: 50px; width: auto;">
+                <img src="../static/images/medium_tank.png" style="float: left; max-height: 50px; width: auto;">
+                <h1 class="display-5"><strong>VI -</strong> Cromwell</h1>
+            </div>
+
+            <div class="col-sm-3" style="float: left;">
+                <img src="../static/images/cromwell.png" class="card-img-top" style="max-height: 200px; width: auto;">
+            </div class="col-sm-9">
+            <div>
+                <p style="margin-top: 30px;">The Cromwell was developed in 1941–1942 by BRC&W. A total of 1,070 vehicles were mass-produced from late 1943 through 1945. They were extensively used by the British Army in the Northwest Europe Campaign of 1944–1945.</p>
+            </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="row">
+          <div class="col-sm-6" style="padding: 10px 10px 10px 30px;">
+              <table class="table table-hover table-sm table-dark">
+                  <tbody>
+                    <tr>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                    </tr>
+                    <tr>
+                      <td>Jacob</td>
+                      <td>Thornton</td>
+                    </tr>
+                    <tr>
+                      <td>Larry</td>
+                      <td>the Bird</td>
+                    </tr>
+                  </tbody>
+                </table>
+            
+          </div>
+
+          <div class="col-sm-6" id="radar_chart" style="padding-left: 150px; padding-top: 50px;">
+            <script>
+
+              RadarChart.defaultConfig.color = function() {};
+              RadarChart.defaultConfig.radius = 5;
+              RadarChart.defaultConfig.w = 400;
+              RadarChart.defaultConfig.h = 400;
+
+              var data = [
+                {
+                  className: 'specific',
+                  axes: [
+                    {axis: "strength", value: 13}, 
+                    {axis: "intelligence", value: 6}, 
+                    {axis: "charisma", value: 5},  
+                    {axis: "dexterity", value: 9},  
+                    {axis: "luck", value: 2}
+                  ]
+                },
+                {
+                  className: 'average',
+                  axes: [
+                    {axis: "strength", value: 6}, 
+                    {axis: "intelligence", value: 7}, 
+                    {axis: "charisma", value: 10},  
+                    {axis: "dexterity", value: 13},  
+                    {axis: "luck", value: 9}
+                  ]
+                }
+              ];
+
+              var chart = RadarChart.chart();
+              var cfg = chart.config(); // retrieve default config
+              var svg = d3.select('#radar_chart').append('svg')
+                .attr('width', cfg.w + cfg.w + 50)
+                .attr('height', cfg.h + cfg.h / 4);
+              svg.append('g').classed('single', 1).datum(data).call(chart);
+            </script>
+          </div>
+        </div>
+      </div>
+  </body>
+</html>

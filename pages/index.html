@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,23 +22,26 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
-    <title>Hello, world!</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+
+    <title>Wot - Tank statistics</title>
 </head>
 
 <body>
+
     <header> 
         <!-- Background image -->
         <div
           class="p-5 text-center bg-image"
           style="
-            background-image: url('../images/wot_background.jpg');
+            background-image: url('../static/images/wot_background.jpg');
             height: 400px;
           "
         >
           <div class="mask" style="background-color: rgba(0, 0, 0, 0.6); padding-top: 15px;">
             <div class="d-flex justify-content-center align-items-center h-100">
               <div class="text-white">
-                <img src="../images/wot_logo_white.png" style="width: 30%;" >
+                <img src="../static/images/wot_logo_white.png" style="width: 30%;" >
                 <h4 class="mb-3" style="margin-top: 20px;">Tanks statistics</h4>
               </div>
             </div>
@@ -46,37 +52,315 @@
 
     <div class="card-deck" style="margin:50px">
         <div class="card" style="width: 18rem;">
-            <img src="../images/cromwell.png" class="card-img-top" style="background-color: lightgray;">
+            <img src="../static/images/cromwell.png" class="card-img-top" style="background-color: lightgray;">
             <div class="card-body">
-                <h5 class="card-title">Card title</h5>
+                <h5 class="card-title">Cromwell</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                     card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="card-stats-cromwell">
+                <script>
+
+                    var data = [{
+                        "name": "Armour",
+                        "value": 320,
+                    },
+                    {
+                        "name": "Firepower",
+                        "value": 430,
+                    },
+                    {
+                        "name": "Mobility",
+                        "value": 912,
+                    }];
+
+
+                    //set up svg using margin conventions - we'll need plenty of room on the left for labels
+                    var margin = {
+                        top: 5,
+                        right: 30,
+                        bottom: 15,
+                        left: 75
+                    };
+
+                    var width = 375 - margin.left - margin.right,
+                        height = 150 - margin.top - margin.bottom;
+
+                    var svg = d3.select(".card-stats-cromwell").append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                    var x = d3.scale.linear()
+                        .range([0, width])
+                        .domain([0, d3.max(data, function (d) {
+                            return d.value;
+                        })]);
+
+                    var y = d3.scale.ordinal()
+                        .rangeRoundBands([height, 0], .1)
+                        .domain(data.map(function (d) {
+                            return d.name;
+                        }));
+
+                    //make y axis to show bar names
+                    var yAxis = d3.svg.axis()
+                        .scale(y)
+                        //no tick marks
+                        .tickSize(0)
+                        .orient("left");
+
+                    var gy = svg.append("g")
+                        .attr("class", "y axis")
+                        .call(yAxis)
+
+                    var bars = svg.selectAll(".bar")
+                        .data(data)
+                        .enter()
+                        .append("g")
+
+                    //append rects
+                    bars.append("rect")
+                        .attr("class", "bar")
+                        .attr("y", function (d) {
+                            return y(d.name);
+                        })
+                        .attr("height", y.rangeBand())
+                        .attr("x", 0)
+                        .attr("fill", "orange")
+                        .attr("width", function (d) {
+                            return x(d.value);
+                        });
+
+                    //add a value label to the right of each bar
+                    bars.append("text")
+                        .attr("class", "label")
+                        //y position of the label is halfway down the bar
+                        .attr("y", function (d) {
+                            return y(d.name) + y.rangeBand() / 2 + 4;
+                        })
+                        //x position is 3 pixels to the right of the bar
+                        .attr("x", function (d) {
+                            return x(d.value) + 3;
+                        })
+                        .text(function (d) {
+                            return d.value;
+                        });
+
+                </script>
+                </div>
+                <a href="cromwell.html" class="btn btn-primary">Details</a>
             </div>
         </div>
+
         <div class="card" style="width: 18rem;">
-            <img src="../images/cromwell.png" class="card-img-top" style="background-color: lightgray;">
+            <img src="../static/images/object_907.png" class="card-img-top" style="background-color: lightgray;">
             <div class="card-body">
-                <h5 class="card-title">Card title</h5>
+                <h5 class="card-title" >Object 907</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                     card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <div class="card-stats-obj_907">
+                    <script>
+    
+                        var data = [{
+                            "name": "Armour",
+                            "value": 798,
+                        },
+                        {
+                            "name": "Firepower",
+                            "value": 983,
+                        },
+                        {
+                            "name": "Mobility",
+                            "value": 763,
+                        }];
+    
+    
+                        //set up svg using margin conventions - we'll need plenty of room on the left for labels
+                        var margin = {
+                            top: 5,
+                            right: 30,
+                            bottom: 15,
+                            left: 75
+                        };
+    
+                        var width = 375 - margin.left - margin.right,
+                            height = 150 - margin.top - margin.bottom;
+    
+                        var svg = d3.select(".card-stats-obj_907").append("svg")
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom)
+                            .append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+                        var x = d3.scale.linear()
+                            .range([0, width])
+                            .domain([0, d3.max(data, function (d) {
+                                return d.value;
+                            })]);
+    
+                        var y = d3.scale.ordinal()
+                            .rangeRoundBands([height, 0], .1)
+                            .domain(data.map(function (d) {
+                                return d.name;
+                            }));
+    
+                        //make y axis to show bar names
+                        var yAxis = d3.svg.axis()
+                            .scale(y)
+                            //no tick marks
+                            .tickSize(0)
+                            .orient("left");
+    
+                        var gy = svg.append("g")
+                            .attr("class", "y axis")
+                            .call(yAxis)
+    
+                        var bars = svg.selectAll(".bar")
+                            .data(data)
+                            .enter()
+                            .append("g")
+    
+                        //append rects
+                        bars.append("rect")
+                            .attr("class", "bar")
+                            .attr("y", function (d) {
+                                return y(d.name);
+                            })
+                            .attr("height", y.rangeBand())
+                            .attr("x", 0)
+                            .attr("fill", "orange")
+                            .attr("width", function (d) {
+                                return x(d.value);
+                            });
+    
+                        //add a value label to the right of each bar
+                        bars.append("text")
+                            .attr("class", "label")
+                            //y position of the label is halfway down the bar
+                            .attr("y", function (d) {
+                                return y(d.name) + y.rangeBand() / 2 + 4;
+                            })
+                            //x position is 3 pixels to the right of the bar
+                            .attr("x", function (d) {
+                                return x(d.value) + 3;
+                            })
+                            .text(function (d) {
+                                return d.value;
+                            });
+    
+                    </script>
+                    </div>
+                <a href="#" class="btn btn-primary">Details</a>
             </div>
         </div>
+
         <div class="card" style="width: 18rem;">
-            <img src="../images/cromwell.png" class="card-img-top" style="background-color:">
+            <img src="../static/images/progetto_m40_mod_65.png" class="card-img-top" style="background-color: lightgray">
             <div class="card-body">
-                <h5 class="card-title">Card title</h5>
+                <h5 class="card-title">Progetto m40 mod 65</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                     card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="card-stats-progetto_m40_mod_65">
+                    <script>
+    
+                        var data = [{
+                            "name": "Armour",
+                            "value": 453,
+                        },
+                        {
+                            "name": "Firepower",
+                            "value": 840,
+                        },
+                        {
+                            "name": "Mobility",
+                            "value": 832,
+                        }];
+    
+    
+                        //set up svg using margin conventions - we'll need plenty of room on the left for labels
+                        var margin = {
+                            top: 5,
+                            right: 30,
+                            bottom: 15,
+                            left: 75
+                        };
+    
+                        var width = 375 - margin.left - margin.right,
+                            height = 150 - margin.top - margin.bottom;
+    
+                        var svg = d3.select(".card-stats-progetto_m40_mod_65").append("svg")
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom)
+                            .append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+                        var x = d3.scale.linear()
+                            .range([0, width])
+                            .domain([0, d3.max(data, function (d) {
+                                return d.value;
+                            })]);
+    
+                        var y = d3.scale.ordinal()
+                            .rangeRoundBands([height, 0], .1)
+                            .domain(data.map(function (d) {
+                                return d.name;
+                            }));
+    
+                        //make y axis to show bar names
+                        var yAxis = d3.svg.axis()
+                            .scale(y)
+                            //no tick marks
+                            .tickSize(0)
+                            .orient("left");
+    
+                        var gy = svg.append("g")
+                            .attr("class", "y axis")
+                            .call(yAxis)
+    
+                        var bars = svg.selectAll(".bar")
+                            .data(data)
+                            .enter()
+                            .append("g")
+    
+                        //append rects
+                        bars.append("rect")
+                            .attr("class", "bar")
+                            .attr("y", function (d) {
+                                return y(d.name);
+                            })
+                            .attr("height", y.rangeBand())
+                            .attr("x", 0)
+                            .attr("fill", "orange")
+                            .attr("width", function (d) {
+                                return x(d.value);
+                            });
+    
+                        //add a value label to the right of each bar
+                        bars.append("text")
+                            .attr("class", "label")
+                            //y position of the label is halfway down the bar
+                            .attr("y", function (d) {
+                                return y(d.name) + y.rangeBand() / 2 + 4;
+                            })
+                            //x position is 3 pixels to the right of the bar
+                            .attr("x", function (d) {
+                                return x(d.value) + 3;
+                            })
+                            .text(function (d) {
+                                return d.value;
+                            });
+    
+                    </script>
+                    </div>
+                <a href="#" class="btn btn-primary">Details</a>
             </div>
         </div>
     </div>
 
     <div class="card-deck" style="margin:50px">
         <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
+            <img src="../static/images/cromwell.png" class="card-img-top" style="background-color: lightgray">
             <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -85,7 +369,7 @@
             </div>
         </div>
         <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
+            <img src="../static/images/cromwell.png" class="card-img-top" style="background-color: lightgray">
             <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -94,7 +378,7 @@
             </div>
         </div>
         <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
+            <img src="../static/images/cromwell.png" class="card-img-top" style="background-color: lightgray">
             <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
