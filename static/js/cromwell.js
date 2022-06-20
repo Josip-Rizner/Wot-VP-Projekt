@@ -1,3 +1,5 @@
+//Radar char preuzet je pruzet s https://github.com/alangrafu/radar-chart-d3
+
 RadarChart.defaultConfig.color = function () { };
 RadarChart.defaultConfig.radius = 5;
 RadarChart.defaultConfig.w = 500;

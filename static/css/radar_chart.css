@@ -1,3 +1,5 @@
+/*Radar char preuzet je pruzet s https://github.com/alangrafu/radar-chart-d3*/
+
 .radar-chart .level {
     stroke: grey;
     stroke-width: 0.5;
